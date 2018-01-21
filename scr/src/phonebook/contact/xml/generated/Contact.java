@@ -139,7 +139,7 @@ public class Contact extends AbstractContact{
         if(this.phoneNumber == null) {
             this.phoneNumber = new ArrayList<>();
         }
-        if(getDefaultNumberId() == -1) {
+        if(getDefaultNumberId() == 0) {
             setDefaultNumberId(id);
         }
         this.phoneNumber.add(ph);
@@ -226,7 +226,7 @@ public class Contact extends AbstractContact{
         getPhoneNumber().remove(target);
         if(id == getDefaultNumberId()) {
             if(getPhoneNumber().size() == 0)
-                setDefaultNumberId(-1);
+                setDefaultNumberId(0);
             else {
                 setDefaultNumberId(getPhoneNumber().get(0).getId());
             }
