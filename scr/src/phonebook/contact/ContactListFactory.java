@@ -1,6 +1,6 @@
-package phonebook.contact;
+package src.phonebook.contact;
 
-import phonebook.contact.xml.XMLSaveLoader;
+import src.phonebook.contact.xml.XMLSaveLoader;
 
 public class  ContactListFactory {
     private static ContactList contactList;

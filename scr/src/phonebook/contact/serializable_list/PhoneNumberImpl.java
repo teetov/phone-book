@@ -1,6 +1,6 @@
-package phonebook.contact.serializable_list;
+package src.phonebook.contact.serializable_list;
 
-import phonebook.contact.AbstractPhoneNumber;
+import src.phonebook.contact.AbstractPhoneNumber;
 
 import java.io.Serializable;
 

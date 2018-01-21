@@ -1,4 +1,4 @@
-package phonebook.contact;
+package src.phonebook.contact;
 
 import java.util.Calendar;
 import java.util.List;

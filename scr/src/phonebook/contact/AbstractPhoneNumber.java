@@ -1,6 +1,6 @@
-package phonebook.contact;
+package src.phonebook.contact;
 
-import phonebook.contact.PhoneNumber;
+import src.phonebook.contact.PhoneNumber;
 
 public abstract class AbstractPhoneNumber implements PhoneNumber {
 

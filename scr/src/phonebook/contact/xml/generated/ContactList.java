@@ -6,9 +6,9 @@
 //
 
 
-package phonebook.contact.xml.generated;
+package src.phonebook.contact.xml.generated;
 
-import phonebook.contact.xml.XMLSaveLoader;
+import src.phonebook.contact.xml.XMLSaveLoader;
 
 import java.util.*;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlType;
     "contact"
 })
 @XmlRootElement(name = "contactList")
-public class ContactList implements phonebook.contact.ContactList {
+public class ContactList implements src.phonebook.contact.ContactList {
 
     protected List<Contact> contact;
 
@@ -75,7 +75,7 @@ public class ContactList implements phonebook.contact.ContactList {
     }
 
     @Override
-    public phonebook.contact.Contact getContact(int id) {
+    public src.phonebook.contact.Contact getContact(int id) {
         for(Contact cont : contact) {
             if(cont.getId() == id)
                 return cont;
@@ -84,8 +84,8 @@ public class ContactList implements phonebook.contact.ContactList {
     }
 
     @Override
-    public List<phonebook.contact.Contact> getContactsByNumber(String number) {
-        List<phonebook.contact.Contact> result = new ArrayList<>();
+    public List<src.phonebook.contact.Contact> getContactsByNumber(String number) {
+        List<src.phonebook.contact.Contact> result = new ArrayList<>();
         for(Contact cont : contact) {
             for(PhoneNumber ph : cont.getPhoneNumber())
                 if(number.matches(ph.getNumber())){
@@ -97,8 +97,8 @@ public class ContactList implements phonebook.contact.ContactList {
     }
 
     @Override
-    public List<phonebook.contact.Contact> getContactsByName(String name) {
-        List<phonebook.contact.Contact> result = new ArrayList<>();
+    public List<src.phonebook.contact.Contact> getContactsByName(String name) {
+        List<src.phonebook.contact.Contact> result = new ArrayList<>();
         for(Contact cont : contact) {
             if(name.matches(cont.getName()))
                 result.add(cont);
@@ -107,8 +107,8 @@ public class ContactList implements phonebook.contact.ContactList {
     }
 
     @Override
-    public List<phonebook.contact.Contact> getContactList() {
-        List<phonebook.contact.Contact> result = new ArrayList<>(contact);
+    public List<src.phonebook.contact.Contact> getContactList() {
+        List<src.phonebook.contact.Contact> result = new ArrayList<>(contact);
         return result;
     }
 
@@ -126,7 +126,7 @@ public class ContactList implements phonebook.contact.ContactList {
     }
 
     @Override
-    public phonebook.contact.Contact createNewContact(String name) {
+    public src.phonebook.contact.Contact createNewContact(String name) {
         Contact cont = new Contact(IDGen.newId(this), name);
         contact.add(cont);
         return cont;

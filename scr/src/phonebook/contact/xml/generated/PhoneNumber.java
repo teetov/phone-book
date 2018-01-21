@@ -6,9 +6,9 @@
 //
 
 
-package phonebook.contact.xml.generated;
+package src.phonebook.contact.xml.generated;
 
-import phonebook.contact.AbstractPhoneNumber;
+import src.phonebook.contact.AbstractPhoneNumber;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

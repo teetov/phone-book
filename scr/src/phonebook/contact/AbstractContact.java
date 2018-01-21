@@ -1,4 +1,4 @@
-package phonebook.contact;
+package src.phonebook.contact;
 
 public abstract class AbstractContact implements Contact {
 

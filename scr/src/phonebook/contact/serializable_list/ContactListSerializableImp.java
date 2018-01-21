@@ -1,9 +1,9 @@
-package phonebook.contact.serializable_list;
+package src.phonebook.contact.serializable_list;
 
-import phonebook.contact.Contact;
-import phonebook.contact.ContactList;
-import phonebook.contact.IdGenerator;
-import phonebook.contact.PhoneNumber;
+import src.phonebook.contact.Contact;
+import src.phonebook.contact.ContactList;
+import src.phonebook.contact.IdGenerator;
+import src.phonebook.contact.PhoneNumber;
 
 import java.io.*;
 import java.util.*;

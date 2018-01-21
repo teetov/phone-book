@@ -1,4 +1,4 @@
-package phonebook.contact;
+package src.phonebook.contact;
 
 public interface PhoneNumber {
 

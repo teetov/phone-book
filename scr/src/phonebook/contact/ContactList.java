@@ -1,6 +1,6 @@
-package phonebook.contact;
+package src.phonebook.contact;
 
-import phonebook.contact.Contact;
+import src.phonebook.contact.Contact;
 
 import java.util.*;
 

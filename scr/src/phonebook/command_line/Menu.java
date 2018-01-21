@@ -1,9 +1,9 @@
-package phonebook.command_line;
+package src.phonebook.command_line;
 
-import phonebook.contact.Contact;
-import phonebook.contact.ContactList;
-import phonebook.contact.ContactListFactory;
-import phonebook.contact.PhoneNumber;
+import src.phonebook.contact.Contact;
+import src.phonebook.contact.ContactList;
+import src.phonebook.contact.ContactListFactory;
+import src.phonebook.contact.PhoneNumber;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -6,10 +6,10 @@
 //
 
 
-package phonebook.contact.xml.generated;
+package src.phonebook.contact.xml.generated;
 
 import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
-import phonebook.contact.AbstractContact;
+import src.phonebook.contact.AbstractContact;
 
 import java.util.*;
 import javax.xml.bind.annotation.*;
@@ -80,28 +80,6 @@ public class Contact extends AbstractContact{
         return contactID;
     }
 
-    /**
-     * Gets the value of the phoneNumber property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the phoneNumber property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getPhoneNumber().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link PhoneNumber }
-     * 
-     * 
-     */
     public List<PhoneNumber> getPhoneNumber() {
         if (phoneNumber == null) {
             phoneNumber = new ArrayList<PhoneNumber>();
@@ -123,7 +101,7 @@ public class Contact extends AbstractContact{
     }
 
     @Override
-    public List<phonebook.contact.PhoneNumber> getNumbers() {
+    public List<src.phonebook.contact.PhoneNumber> getNumbers() {
         return new ArrayList<>(getPhoneNumber());
     }
 
@@ -151,7 +129,7 @@ public class Contact extends AbstractContact{
     }
 
     @Override
-    public phonebook.contact.PhoneNumber getNumber(String number) {
+    public src.phonebook.contact.PhoneNumber getNumber(String number) {
         for(PhoneNumber ph : phoneNumber)
             if(number.matches(ph.getNumber()))
                 return ph;
@@ -159,7 +137,7 @@ public class Contact extends AbstractContact{
     }
 
     @Override
-    public phonebook.contact.PhoneNumber detNumberByDescription(String description) {
+    public src.phonebook.contact.PhoneNumber detNumberByDescription(String description) {
         for(PhoneNumber ph : phoneNumber)
             if(description.matches(ph.getDescription()))
                 return ph;
@@ -167,7 +145,7 @@ public class Contact extends AbstractContact{
     }
 
     @Override
-    public phonebook.contact.PhoneNumber getNumber(int id) {
+    public src.phonebook.contact.PhoneNumber getNumber(int id) {
         for(PhoneNumber ph : phoneNumber)
             if(id == ph.getId())
                 return ph;
@@ -202,7 +180,7 @@ public class Contact extends AbstractContact{
     }
 
     @Override
-    public phonebook.contact.PhoneNumber getDefoultNumber() {
+    public src.phonebook.contact.PhoneNumber getDefoultNumber() {
         if(getDefaultNumberId() > 0)
             return getNumber(getDefaultNumberId());
         return null;
@@ -214,13 +192,13 @@ public class Contact extends AbstractContact{
     }
 
     @Override
-    public void setDefoultNumber(phonebook.contact.PhoneNumber phoneNumber) {
+    public void setDefoultNumber(src.phonebook.contact.PhoneNumber phoneNumber) {
         setDefaultNumberId(phoneNumber.getId());
     }
 
     @Override
     public void removeNumber(int id) {
-        phonebook.contact.PhoneNumber target = getNumber(id);
+        src.phonebook.contact.PhoneNumber target = getNumber(id);
         if(target == null)
             return;
         getPhoneNumber().remove(target);
@@ -235,7 +213,7 @@ public class Contact extends AbstractContact{
     }
 
     @Override
-    public void removeNumber(phonebook.contact.PhoneNumber phoneNumber) {
+    public void removeNumber(src.phonebook.contact.PhoneNumber phoneNumber) {
         removeNumber(phoneNumber.getId());
     }
 
