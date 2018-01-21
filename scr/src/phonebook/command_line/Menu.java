@@ -19,7 +19,7 @@ public class Menu {
             "\r\n1 список всех контактов" +
             "\r\n2 найти контакт" +
             "\r\n3 добавить контакт" +
-            "\r\n4 выход";
+            "\r\n4 закрыть приложение";
 
     private String contactListMenu = "Выберите действие со списком контактов:" +
             "\r\n1 выбрать контакт" +
@@ -85,7 +85,7 @@ public class Menu {
                 }
             }
         } finally {
-            contactList.close();
+            contactList.saveChanges();
         }
     }
 
@@ -111,12 +111,16 @@ public class Menu {
                     System.out.println("Выберете номер интересующего вас контакта:");
                     int index = readIntCommand(list.size());
                     manageContact(list.get(index - 1));
+
                     break;
                 case 2:
                     System.out.println("Выберете номер контакта для удаления:");
                     int numberToDelet = readIntCommand(list.size());
                     contactList.remove(list.get(numberToDelet - 1).getId());
                     list.remove(numberToDelet - 1);
+
+                    contactList.saveChanges();
+
                     break;
                 case 3:
                     flag = false;
@@ -212,6 +216,9 @@ public class Menu {
                     description = readString("Введите описание: ");
 
                     contact.addNumber(number, description);
+
+                    contactList.saveChanges();
+
                     break;
 
                 case 2:
@@ -232,17 +239,26 @@ public class Menu {
 
                     i = readIntCommand(phList.size());
                     contact.removeNumber(phList.get(i - 1));
+
+                    contactList.saveChanges();
+
                     break;
 
                 case 4:
                     String newName = readString("Введите новое имя: ");
                     contact.setName(newName);
+
+                    contactList.saveChanges();
+
                     break;
 
                 case 5:
                     String newAddress = readString("Введите новый адрес: ");
 
                     contact.setAddress(newAddress);
+
+                    contactList.saveChanges();
+
                     break;
 
                 case 6:
@@ -253,6 +269,9 @@ public class Menu {
 
                     i = readIntCommand(phList.size());
                     contact.setDefoultNumber(phList.get(i - 1));
+
+                    contactList.saveChanges();
+
                     break;
 
                 case 7:
@@ -285,10 +304,16 @@ public class Menu {
             switch(command) {
                 case 1:
                     phNumber.setNumber(readString("Введите новый номер:"));
+
+                    contactList.saveChanges();
+
                     break;
 
                 case 2:
                     phNumber.setDescription(readString("Введите новое описание:"));
+
+                    contactList.saveChanges();
+
                     break;
                 case 3:
                     flag = false;

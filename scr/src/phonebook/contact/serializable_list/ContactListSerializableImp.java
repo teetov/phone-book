@@ -1,7 +1,8 @@
-package phonebook.contact.serializable_list_imp;
+package phonebook.contact.serializable_list;
 
 import phonebook.contact.Contact;
 import phonebook.contact.ContactList;
+import phonebook.contact.IdGenerator;
 import phonebook.contact.PhoneNumber;
 
 import java.io.*;
@@ -11,7 +12,7 @@ public class ContactListSerializableImp implements ContactList, Serializable {
     private HashMap<Integer, Contact> contactList = new HashMap<>();
     private String fileName = "SerializableContactsStore.serial";
 
-    private  IdGenerator contactIdGen = new IdGeneratorImpl();
+    private IdGenerator contactIdGen = new IdGeneratorImpl();
 
     public ContactListSerializableImp() {
         File file = new File("SerializableContactsStore.serial");
@@ -81,6 +82,7 @@ public class ContactListSerializableImp implements ContactList, Serializable {
             return false;
         contactList.remove(id);
         contactIdGen.removeId(id);
+
         return true;
     }
 
@@ -88,11 +90,12 @@ public class ContactListSerializableImp implements ContactList, Serializable {
     public Contact createNewContact(String name) {
         Contact result = new ContactImpl(contactIdGen.newId(), name);
         contactList.put(result.getId(), result);
+
         return result;
     }
 
     @Override
-    public void close() {
+    public void saveChanges() {
         try (ObjectOutputStream ous = new ObjectOutputStream(
                 new FileOutputStream(fileName)
         )) {

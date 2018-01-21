@@ -16,5 +16,5 @@ public interface ContactList {
 
     Contact createNewContact(String name);
 
-    void close();
+    void saveChanges();
 }

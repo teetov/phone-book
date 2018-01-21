@@ -1,4 +1,6 @@
-package phonebook.contact.serializable_list_imp;
+package phonebook.contact.serializable_list;
+
+import phonebook.contact.IdGenerator;
 
 import java.io.Serializable;
 import java.util.ArrayList;

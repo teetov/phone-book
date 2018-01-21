@@ -1,9 +1,19 @@
 package phonebook.contact;
 
-import phonebook.contact.serializable_list_imp.ContactListSerializableImp;
+import phonebook.contact.xml.XMLSaveLoader;
 
 public class  ContactListFactory {
+    private static ContactList contactList;
+
+ /*   public static ContactList getContactList() {
+        if(contactList == null)
+            contactList = new ContactListSerializableImp();
+        return contactList;
+    }*/
+
     public static ContactList getContactList() {
-        return new ContactListSerializableImp();
+        if(contactList == null)
+            contactList = XMLSaveLoader.loadContactList();
+        return contactList;
     }
 }
