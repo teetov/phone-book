@@ -9,6 +9,9 @@
 package src.phonebook.contact.xml.generated;
 
 import src.phonebook.contact.AbstractPhoneNumber;
+import src.phonebook.contact.PhoneBookFactory;
+import src.phonebook.contact.PhoneBook;
+import src.phonebook.contact.xml.XMLSaveLoader;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -36,9 +39,9 @@ public class PhoneNumber extends AbstractPhoneNumber {
         return numberID;
     }
 
-    PhoneNumber() {}
+    public PhoneNumber() {}
 
-    PhoneNumber(int id, String number, String description) {
+    public PhoneNumber(int id, String number, String description) {
         numberID = id;
         phoneNumber = number;
         this.description = description;
@@ -53,6 +56,7 @@ public class PhoneNumber extends AbstractPhoneNumber {
     @Override
     public void setDescription(String value) {
         this.description = value;
+        saveChanges();
     }
 
 
@@ -69,5 +73,13 @@ public class PhoneNumber extends AbstractPhoneNumber {
     @Override
     public void setNumber(String number) {
         this.phoneNumber =number;
+        saveChanges();
+    }
+
+    private void saveChanges() {
+        PhoneBook phoneBook = PhoneBookFactory.getPhoneBook();
+
+        if(phoneBook instanceof src.phonebook.contact.xml.generated.PhoneBook)
+            XMLSaveLoader.savePhoneBook(PhoneBookFactory.getPhoneBook());
     }
 }

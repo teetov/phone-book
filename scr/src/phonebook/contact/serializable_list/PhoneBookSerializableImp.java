@@ -1,20 +1,20 @@
 package src.phonebook.contact.serializable_list;
 
 import src.phonebook.contact.Contact;
-import src.phonebook.contact.ContactList;
+import src.phonebook.contact.PhoneBook;
 import src.phonebook.contact.IdGenerator;
 import src.phonebook.contact.PhoneNumber;
 
 import java.io.*;
 import java.util.*;
 
-public class ContactListSerializableImp implements ContactList, Serializable {
+public class PhoneBookSerializableImp implements PhoneBook, Serializable {
     private HashMap<Integer, Contact> contactList = new HashMap<>();
     private String fileName = "SerializableContactsStore.serial";
 
     private IdGenerator contactIdGen = new IdGeneratorImpl();
 
-    public ContactListSerializableImp() {
+    public PhoneBookSerializableImp() {
         File file = new File("SerializableContactsStore.serial");
         if(!file.exists()) {
             try {
@@ -48,25 +48,20 @@ public class ContactListSerializableImp implements ContactList, Serializable {
     }
 
     @Override
-    public List<Contact> getContactsByNumber(String number) {
+    public List<Contact> findContacts(String partOfAttribute) {
+        String matcher = ".*" +partOfAttribute + ".*";
         List<Contact> resultList = new ArrayList<>();
         for(Contact cont : contactList.values()) {
-            newContact: for(PhoneNumber numb : cont.getNumbers()) {
-                if(number != null && number.equals(numb.getNumber())) {
-                    resultList.add(cont);
-                    break newContact;
+            if(cont.getName().matches(partOfAttribute))
+                resultList.add(cont);
+            else {
+                newContact: for(PhoneNumber numb : cont.getNumbers()) {
+                    if (numb.getNumber().matches(partOfAttribute)) {
+                        resultList.add(cont);
+                        break newContact;
+                    }
                 }
             }
-        }
-        return resultList;
-    }
-
-    @Override
-    public List<Contact> getContactsByName(String name) {
-        List<Contact> resultList = new ArrayList<>();
-        for(Contact cont : contactList.values()) {
-            if(name != null && name.matches(cont.getName()))
-                resultList.add(cont);
         }
         return resultList;
     }
@@ -83,6 +78,8 @@ public class ContactListSerializableImp implements ContactList, Serializable {
         contactList.remove(id);
         contactIdGen.removeId(id);
 
+        saveChanges();
+
         return true;
     }
 
@@ -91,11 +88,12 @@ public class ContactListSerializableImp implements ContactList, Serializable {
         Contact result = new ContactImpl(contactIdGen.newId(), name);
         contactList.put(result.getId(), result);
 
+        saveChanges();
+
         return result;
     }
 
-    @Override
-    public void saveChanges() {
+    private void saveChanges() {
         try (ObjectOutputStream ous = new ObjectOutputStream(
                 new FileOutputStream(fileName)
         )) {

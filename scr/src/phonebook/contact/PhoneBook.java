@@ -4,11 +4,10 @@ import src.phonebook.contact.Contact;
 
 import java.util.*;
 
-public interface ContactList {
+public interface PhoneBook {
     Contact getContact(int id);
 
-    List<Contact> getContactsByNumber(String number);
-    List<Contact> getContactsByName(String name);
+    List<Contact> findContacts(String partOfAttribute);
 
     List<Contact> getContactList();
 
@@ -16,5 +15,5 @@ public interface ContactList {
 
     Contact createNewContact(String name);
 
-    void saveChanges();
+
 }

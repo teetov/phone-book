@@ -10,6 +10,9 @@ package src.phonebook.contact.xml.generated;
 
 import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
 import src.phonebook.contact.AbstractContact;
+import src.phonebook.contact.PhoneBook;
+import src.phonebook.contact.PhoneBookFactory;
+import src.phonebook.contact.xml.XMLSaveLoader;
 
 import java.util.*;
 import javax.xml.bind.annotation.*;
@@ -67,7 +70,7 @@ public class Contact extends AbstractContact{
     @XmlTransient
     private IDGen idGen = new IDGen();
 
-    Contact() {}
+    public Contact() {}
 
     Contact(int id, String name) {
         contactID = id;
@@ -89,6 +92,8 @@ public class Contact extends AbstractContact{
 
     public void setDefaultNumberId(int id) {
         defaultNumberId = id;
+
+        saveChanges();
     }
 
     public int getDefaultNumberId() {
@@ -106,11 +111,6 @@ public class Contact extends AbstractContact{
     }
 
     @Override
-    public int lengthOfNumbersList() {
-        return getPhoneNumber().size();
-    }
-
-    @Override
     public void addNumber(String phoneNumber, String description) {
         int id = idGen.newId();
         PhoneNumber ph = new PhoneNumber((id), phoneNumber, description);
@@ -121,11 +121,8 @@ public class Contact extends AbstractContact{
             setDefaultNumberId(id);
         }
         this.phoneNumber.add(ph);
-    }
 
-    @Override
-    public void addNumber(String phoneNumber) {
-        addNumber(phoneNumber, "");
+        saveChanges();
     }
 
     @Override
@@ -162,6 +159,8 @@ public class Contact extends AbstractContact{
     @Override
     public void setName(String name) {
         contactsName = name;
+
+        saveChanges();
     }
 
     @Override
@@ -177,44 +176,39 @@ public class Contact extends AbstractContact{
     @Override
     public void setAddress(String address) {
         this.address = address;
+
+        saveChanges();
     }
 
     @Override
-    public src.phonebook.contact.PhoneNumber getDefoultNumber() {
+    public src.phonebook.contact.PhoneNumber getDefaultNumber() {
         if(getDefaultNumberId() > 0)
             return getNumber(getDefaultNumberId());
         return null;
     }
 
     @Override
-    public void setDefoultNumber(int id) {
-        setDefaultNumberId(id);
-    }
-
-    @Override
-    public void setDefoultNumber(src.phonebook.contact.PhoneNumber phoneNumber) {
+    public void setDefaultNumber(src.phonebook.contact.PhoneNumber phoneNumber) {
         setDefaultNumberId(phoneNumber.getId());
+
+        saveChanges();
     }
 
     @Override
-    public void removeNumber(int id) {
-        src.phonebook.contact.PhoneNumber target = getNumber(id);
-        if(target == null)
+    public void removeNumber(src.phonebook.contact.PhoneNumber phoneNumber) {
+        if(phoneNumber == null)
             return;
-        getPhoneNumber().remove(target);
-        if(id == getDefaultNumberId()) {
+        getPhoneNumber().remove(phoneNumber);
+        if(phoneNumber.getId() == getDefaultNumberId()) {
             if(getPhoneNumber().size() == 0)
                 setDefaultNumberId(0);
             else {
                 setDefaultNumberId(getPhoneNumber().get(0).getId());
             }
         }
-        idGen.removeId(id);
-    }
+        idGen.removeId(phoneNumber.getId());
 
-    @Override
-    public void removeNumber(src.phonebook.contact.PhoneNumber phoneNumber) {
-        removeNumber(phoneNumber.getId());
+        saveChanges();
     }
 
     private class IDGen {
@@ -254,4 +248,12 @@ public class Contact extends AbstractContact{
             hasBeanInitialized = true;
         }
     };
+
+
+    private void saveChanges() {
+        PhoneBook phoneBook = PhoneBookFactory.getPhoneBook();
+
+        if(phoneBook instanceof src.phonebook.contact.xml.generated.PhoneBook)
+            XMLSaveLoader.savePhoneBook(PhoneBookFactory.getPhoneBook());
+    }
 }

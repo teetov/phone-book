@@ -1,8 +1,8 @@
 package src.phonebook.command_line;
 
 import src.phonebook.contact.Contact;
-import src.phonebook.contact.ContactList;
-import src.phonebook.contact.ContactListFactory;
+import src.phonebook.contact.PhoneBook;
+import src.phonebook.contact.PhoneBookFactory;
 import src.phonebook.contact.PhoneNumber;
 
 import java.io.BufferedReader;
@@ -43,11 +43,11 @@ public class Menu {
             "\r\n2 изменить описание" +
             "\r\n3 выход";
 
-    ContactList contactList;
+    private PhoneBook phoneBook;
 
-    BufferedReader inputReader;
+    private BufferedReader inputReader;
     public Menu() {
-        contactList = ContactListFactory.getContactList();
+        phoneBook = PhoneBookFactory.getPhoneBook();
 
         inputReader = new BufferedReader(new InputStreamReader(System.in));
     }
@@ -64,13 +64,13 @@ public class Menu {
 
                 switch(command) {
                     case 1:
-                        manageContactList(contactList.getContactList());
+                        manageContactList(phoneBook.getContactList());
                         break;
 
                     case 2:
                         String filter = readString("Введите часть имени или номера");
 
-                        List<Contact> contacts = findContacts(contactList.getContactList(), filter);
+                        List<Contact> contacts = phoneBook.findContacts(filter);
                         manageContactList(contacts);
                         break;
 
@@ -84,8 +84,8 @@ public class Menu {
                         break;
                 }
             }
-        } finally {
-            contactList.saveChanges();
+        } catch (Exception exc) {
+            exc.printStackTrace();
         }
     }
 
@@ -116,10 +116,8 @@ public class Menu {
                 case 2:
                     System.out.println("Выберете номер контакта для удаления:");
                     int numberToDelet = readIntCommand(list.size());
-                    contactList.remove(list.get(numberToDelet - 1).getId());
+                    phoneBook.remove(list.get(numberToDelet - 1).getId());
                     list.remove(numberToDelet - 1);
-
-                    contactList.saveChanges();
 
                     break;
                 case 3:
@@ -217,8 +215,6 @@ public class Menu {
 
                     contact.addNumber(number, description);
 
-                    contactList.saveChanges();
-
                     break;
 
                 case 2:
@@ -240,15 +236,11 @@ public class Menu {
                     i = readIntCommand(phList.size());
                     contact.removeNumber(phList.get(i - 1));
 
-                    contactList.saveChanges();
-
                     break;
 
                 case 4:
                     String newName = readString("Введите новое имя: ");
                     contact.setName(newName);
-
-                    contactList.saveChanges();
 
                     break;
 
@@ -256,8 +248,6 @@ public class Menu {
                     String newAddress = readString("Введите новый адрес: ");
 
                     contact.setAddress(newAddress);
-
-                    contactList.saveChanges();
 
                     break;
 
@@ -268,9 +258,7 @@ public class Menu {
                     System.out.println("Выберете новый номер по умолчанию:");
 
                     i = readIntCommand(phList.size());
-                    contact.setDefoultNumber(phList.get(i - 1));
-
-                    contactList.saveChanges();
+                    contact.setDefaultNumber(phList.get(i - 1));
 
                     break;
 
@@ -305,14 +293,10 @@ public class Menu {
                 case 1:
                     phNumber.setNumber(readString("Введите новый номер:"));
 
-                    contactList.saveChanges();
-
                     break;
 
                 case 2:
                     phNumber.setDescription(readString("Введите новое описание:"));
-
-                    contactList.saveChanges();
 
                     break;
                 case 3:
@@ -326,7 +310,7 @@ public class Menu {
         List<PhoneNumber> phList = contact.getNumbers();
 
         for(int i = 0; i < phList.size(); i++) {
-            if(phList.get(i) == contact.getDefoultNumber())
+            if(phList.get(i) == contact.getDefaultNumber())
                 System.out.println("Номер по умолчанию: ");
             System.out.println("№ " + (i + 1));
             System.out.println("\t" + phList.get(i).toString());
@@ -352,8 +336,8 @@ public class Menu {
 
         String phoneNumber = readString("Введите номер телефона");
 
-        Contact contact = contactList.createNewContact(name);
-        contact.addNumber(phoneNumber);;
+        Contact contact = phoneBook.createNewContact(name);
+        contact.addNumber(phoneNumber);
         return contact;
     }
 

@@ -3,6 +3,26 @@ package src.phonebook.contact;
 public abstract class AbstractContact implements Contact {
 
     @Override
+    public int lengthOfNumbersList() {
+        return getNumbers().size();
+    }
+
+    @Override
+    public void removeNumber(int id) {
+        removeNumber(getNumber(id));
+    }
+
+    @Override
+    public void setDefoultNumber(int id) {
+        setDefaultNumber(getNumber((id)));
+    }
+
+    @Override
+    public void addNumber(String phoneNumber) {
+        addNumber(phoneNumber, "");
+    }
+
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Имя: ");
@@ -13,14 +33,14 @@ public abstract class AbstractContact implements Contact {
         sb.append(address);
         sb.append("\r\n");
         sb.append("Номер по умолчанию: ");
-        if(getDefoultNumber() == null) {
+        if(getDefaultNumber() == null) {
             sb.append("Отсутствует");
         } else {
-            sb.append(getDefoultNumber().toString());
+            sb.append(getDefaultNumber().toString());
         }
         sb.append("\r\n");
         for(PhoneNumber pn : getNumbers()) {
-            if(!pn.equals(getDefoultNumber()))
+            if(!pn.equals(getDefaultNumber()))
                 sb.append("\t" + pn.toString() + "\r\n");
         }
         return sb.toString();

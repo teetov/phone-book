@@ -45,21 +45,11 @@ public class ContactImpl extends AbstractContact implements Serializable{
     }
 
     @Override
-    public int lengthOfNumbersList() {
-        return numbers.size();
-    }
-
-    @Override
     public void addNumber(String number, String description) {
         PhoneNumber num = new PhoneNumberImpl(numberIdGen.newId(), number, description);
         if(numbers.size() == 0)
             defPhoneNumber = num;
         numbers.add(num);
-    }
-
-    @Override
-    public void addNumber(String number) {
-        addNumber(number, "");
     }
 
     //реализовать
@@ -87,7 +77,6 @@ public class ContactImpl extends AbstractContact implements Serializable{
         return numbers.get(id);
     }
 
-
     @Override
     public Calendar getUploadDate() {
         return dateOfCreation;
@@ -114,7 +103,7 @@ public class ContactImpl extends AbstractContact implements Serializable{
     }
 
     @Override
-    public PhoneNumber getDefoultNumber() {
+    public PhoneNumber getDefaultNumber() {
         if(defPhoneNumber == null) {
             if(numbers.size() == 0)
                 return null;
@@ -125,27 +114,13 @@ public class ContactImpl extends AbstractContact implements Serializable{
     }
 
     @Override
-    public void setDefoultNumber(int id) {
-        defPhoneNumber = getNumber(id);
-    }
-
-    @Override
-    public void setDefoultNumber(PhoneNumber phoneNumber) {
+    public void setDefaultNumber(PhoneNumber phoneNumber) {
         defPhoneNumber = phoneNumber;
     }
 
     @Override
-    public void removeNumber(int id) {
-        if(numbers.get(id) == getDefoultNumber()) {
-            defPhoneNumber = null;
-        }
-        numberIdGen.removeId(id);
-        numbers.remove(id);
-    }
-
-    @Override
     public void removeNumber(PhoneNumber phoneNumber) {
-        if(phoneNumber == getDefoultNumber()) {
+        if(phoneNumber == getDefaultNumber()) {
             defPhoneNumber = null;
         }
         numberIdGen.removeId(phoneNumber.getId());

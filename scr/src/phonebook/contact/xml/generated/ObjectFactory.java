@@ -24,11 +24,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link ContactList }
+     * Create an instance of {@link PhoneBook }
      * 
      */
-    public ContactList createContactList() {
-        return new ContactList();
+    public PhoneBook createContactList() {
+        return new PhoneBook();
     }
 
     /**

@@ -25,9 +25,9 @@ public interface Contact {
     String getAddress();
     void setAddress(String address);
 
-    PhoneNumber getDefoultNumber();
+    PhoneNumber getDefaultNumber();
     void setDefoultNumber(int id);
-    void setDefoultNumber(PhoneNumber phoneNumber);
+    void setDefaultNumber(PhoneNumber phoneNumber);
 
     void removeNumber(int id);
     void removeNumber(PhoneNumber phoneNumber);

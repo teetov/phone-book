@@ -8,6 +8,7 @@
 
 package src.phonebook.contact.xml.generated;
 
+import src.phonebook.contact.PhoneNumber;
 import src.phonebook.contact.xml.XMLSaveLoader;
 
 import java.util.*;
@@ -22,11 +23,11 @@ import javax.xml.bind.annotation.XmlType;
     "contact"
 })
 @XmlRootElement(name = "contactList")
-public class ContactList implements src.phonebook.contact.ContactList {
+public class PhoneBook implements src.phonebook.contact.PhoneBook {
 
     protected List<Contact> contact;
 
-    public ContactList() {
+    public PhoneBook() {
         contact = new ArrayList<>();
     }
 
@@ -35,7 +36,7 @@ public class ContactList implements src.phonebook.contact.ContactList {
 
         static SortedSet<Integer> idList = new TreeSet<>();
 
-        public static int newId(ContactList cl) {
+        public static int newId(src.phonebook.contact.xml.generated.PhoneBook cl) {
             if(!hasBeanInitialized) {
                 initialize(cl);
             }
@@ -51,13 +52,13 @@ public class ContactList implements src.phonebook.contact.ContactList {
             return result;
         }
 
-        public static void removeId(ContactList cl, int id) {
+        public static void removeId(src.phonebook.contact.xml.generated.PhoneBook cl, int id) {
             if(!hasBeanInitialized) {
                 initialize(cl);
             }
             idList.remove(id);
         }
-        private static void initialize(ContactList cl) {
+        private static void initialize(src.phonebook.contact.xml.generated.PhoneBook cl) {
             if(hasBeanInitialized)
                 return;
             for(Contact cont : cl.contact) {
@@ -84,26 +85,22 @@ public class ContactList implements src.phonebook.contact.ContactList {
     }
 
     @Override
-    public List<src.phonebook.contact.Contact> getContactsByNumber(String number) {
-        List<src.phonebook.contact.Contact> result = new ArrayList<>();
-        for(Contact cont : contact) {
-            for(PhoneNumber ph : cont.getPhoneNumber())
-                if(number.matches(ph.getNumber())){
-                    result.add(cont);
-                    break;
+    public List<src.phonebook.contact.Contact> findContacts(String partOfAttribute) {
+        String matcher = ".*" +partOfAttribute + ".*";
+        List<src.phonebook.contact.Contact> resultList = new ArrayList<>();
+        for(src.phonebook.contact.Contact cont : contact) {
+            if(cont.getName().matches(partOfAttribute))
+                resultList.add(cont);
+            else {
+                newContact: for(PhoneNumber numb : cont.getNumbers()) {
+                    if (numb.getNumber().matches(partOfAttribute)) {
+                        resultList.add(cont);
+                        break newContact;
+                    }
                 }
+            }
         }
-        return result;
-    }
-
-    @Override
-    public List<src.phonebook.contact.Contact> getContactsByName(String name) {
-        List<src.phonebook.contact.Contact> result = new ArrayList<>();
-        for(Contact cont : contact) {
-            if(name.matches(cont.getName()))
-                result.add(cont);
-        }
-        return result;
+        return resultList;
     }
 
     @Override
@@ -122,6 +119,9 @@ public class ContactList implements src.phonebook.contact.ContactList {
                 return true;
             }
         }
+
+        saveChanges();
+
         return false;
     }
 
@@ -129,11 +129,13 @@ public class ContactList implements src.phonebook.contact.ContactList {
     public src.phonebook.contact.Contact createNewContact(String name) {
         Contact cont = new Contact(IDGen.newId(this), name);
         contact.add(cont);
+
+        saveChanges();
+
         return cont;
     }
 
-    @Override
-    public void saveChanges() {
-        XMLSaveLoader.saveContactList(this);
+    private void saveChanges() {
+        XMLSaveLoader.savePhoneBook(this);
     }
 }
