@@ -24,7 +24,7 @@ public class DBConnectionBuilder {
         } catch(NamingException exc) {
             System.out.println("DataSource is not found. New Connection will be created");
             System.out.println();
-//            exc.printStackTrace();
+            exc.printStackTrace();
         }
 
     }
@@ -36,7 +36,7 @@ public class DBConnectionBuilder {
             } catch (SQLException exc) {
                 System.out.println("DataSource is not found. New Connection will be created");
                 System.out.println();
-//                exc.printStackTrace();
+                exc.printStackTrace();
             }
         return createNewConnection();
     }

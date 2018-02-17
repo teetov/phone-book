@@ -10,7 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ContactListSender extends HttpServlet{
 
@@ -25,7 +27,6 @@ public class ContactListSender extends HttpServlet{
 
         List<Contact> contacts;
         if(filter == null || filter.equals("")) {
-            System.out.println(filter);
             contacts = phoneBook.getContactList();
         } else {
             contacts = phoneBook.findContacts(filter);
@@ -45,7 +46,6 @@ public class ContactListSender extends HttpServlet{
                 (contacts.size() + CONTACTS_PER_PAGE - 1) / CONTACTS_PER_PAGE);
 
         try {
-            //System.out.println(contacts);
             request.getRequestDispatcher("/contactlist.jsp").forward(request, response);
 
         } catch (ServletException e) {
@@ -55,11 +55,25 @@ public class ContactListSender extends HttpServlet{
         }
     }
 
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String target = req.getParameter("target");
+
+        PhoneBook phoneBook = PhoneBookFactory.getPhoneBook();
+
+        if("remove".equals(target)) {
+            Set<Integer> setId = parseIdSet(req.getParameter("idSet"));
+
+            for(int id : setId) {
+                phoneBook.remove(id);
+            }
+        }
+    }
+
     private List<Contact> prepareContacts(List<Contact> contactList, int column) {
         int start = (column - 1) * CONTACTS_PER_PAGE;
         int totalSize = contactList.size();
 
-        System.out.println("start: " + start + "sotatl size " + totalSize);
         if(start > totalSize) {
             if(totalSize < CONTACTS_PER_PAGE) {
                 return contactList.subList(0, totalSize);
@@ -84,5 +98,18 @@ public class ContactListSender extends HttpServlet{
             return 1;
         }
         return i;
+    }
+
+    private Set<Integer> parseIdSet(String idSet) {
+        Set<Integer> setId = new HashSet<>();
+        if(idSet == null || idSet.length() == 0)
+            return setId;
+
+        String[] phoneNumbersIdStr = new String[0];
+        phoneNumbersIdStr = idSet.substring(1).split("#");
+        for(String id : phoneNumbersIdStr) {
+            setId.add(Integer.valueOf(id));
+        }
+        return setId;
     }
 }

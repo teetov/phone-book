@@ -10,6 +10,30 @@ import java.util.List;
 
 public class DBContact extends AbstractContact{
 
+    protected static int NAME_SIZE;
+    protected static int ADDRESS_SIZE;
+
+    static {
+        try (Connection connection = DBConnectionBuilder.getConnection()) {
+
+            Statement stmt = connection.createStatement();
+            ResultSet resultSet = stmt.executeQuery("SELECT \"name\", \"address\" FROM \"notes\";");
+
+            NAME_SIZE = resultSet.getMetaData().getColumnDisplaySize(1);
+            ADDRESS_SIZE = resultSet.getMetaData().getColumnDisplaySize(2);
+
+            resultSet.close();
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (NAME_SIZE == 0)
+                NAME_SIZE = 255;
+            if (ADDRESS_SIZE == 0)
+                ADDRESS_SIZE = 255;
+        }
+    }
+
     private int id;
 
     private String name;
@@ -22,6 +46,8 @@ public class DBContact extends AbstractContact{
 
     DBContact(int id, String name, String address, Calendar uploadDate) {
         this.id = id;
+        name = Validator.validate(name, NAME_SIZE);
+        address = Validator.validate(address, ADDRESS_SIZE);
         this.name = name;
         this.address = address;
         this.uploadDate = uploadDate;
@@ -46,7 +72,10 @@ public class DBContact extends AbstractContact{
 
 
     @Override
-    public void addNumber(String phoneNumber, String description) {
+    public PhoneNumber addNumber(String phoneNumber, String description) {
+        phoneNumber = Validator.validate(phoneNumber, DBPhoneNumber.PHONE_SIZE);
+        description = Validator.validate(description, DBPhoneNumber.DESCRIPTION_SIZE);
+
         try(Connection connection = DBConnectionBuilder.getConnection()) {
             PreparedStatement prep = connection.prepareStatement(
                     "INSERT INTO \"phoneNumbers\" (\"noteId\", number, description) " +
@@ -76,9 +105,12 @@ public class DBContact extends AbstractContact{
             resultSet.close();
             prep.close();
 
+            return ph;
+
         } catch(SQLException exc) {
             exc.printStackTrace();
         }
+        return null;
     }
 
     @Override
@@ -117,6 +149,7 @@ public class DBContact extends AbstractContact{
 
     @Override
     public void setName(String name) {
+        name = Validator.validate(name, NAME_SIZE);
         this.name = name;
         try(Connection connection = DBConnectionBuilder.getConnection()) {
             PreparedStatement prep = connection.prepareStatement(
@@ -146,6 +179,7 @@ public class DBContact extends AbstractContact{
 
     @Override
     public void setAddress(String address) {
+        address = Validator.validate(address, ADDRESS_SIZE);
         this.address = address;
 
         try(Connection connection = DBConnectionBuilder.getConnection()) {

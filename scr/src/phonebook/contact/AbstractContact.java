@@ -18,8 +18,8 @@ public abstract class AbstractContact implements Contact {
     }
 
     @Override
-    public void addNumber(String phoneNumber) {
-        addNumber(phoneNumber, "");
+    public PhoneNumber addNumber(String phoneNumber) {
+        return addNumber(phoneNumber, "");
     }
 
     @Override

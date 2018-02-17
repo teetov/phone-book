@@ -45,11 +45,12 @@ public class ContactImpl extends AbstractContact implements Serializable{
     }
 
     @Override
-    public void addNumber(String number, String description) {
+    public PhoneNumber addNumber(String number, String description) {
         PhoneNumber num = new PhoneNumberImpl(numberIdGen.newId(), number, description);
         if(numbers.size() == 0)
             defPhoneNumber = num;
         numbers.add(num);
+        return num;
     }
 
     //реализовать

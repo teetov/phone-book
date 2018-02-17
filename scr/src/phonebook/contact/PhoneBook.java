@@ -15,5 +15,5 @@ public interface PhoneBook {
 
     Contact createNewContact(String name);
 
-
+    Contact createNewContact(String name, String address);
 }

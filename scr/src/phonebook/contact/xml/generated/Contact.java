@@ -73,9 +73,13 @@ public class Contact extends AbstractContact{
     public Contact() {}
 
     Contact(int id, String name) {
+        this(id, name, "");
+    }
+
+    Contact(int id, String name, String address) {
         contactID = id;
         contactsName = name;
-        address = "";
+        address = address;
         dateOfCreating = new XMLGregorianCalendarImpl(new GregorianCalendar());
     }
 
@@ -111,7 +115,7 @@ public class Contact extends AbstractContact{
     }
 
     @Override
-    public void addNumber(String phoneNumber, String description) {
+    public PhoneNumber addNumber(String phoneNumber, String description) {
         int id = idGen.newId();
         PhoneNumber ph = new PhoneNumber((id), phoneNumber, description);
         if(this.phoneNumber == null) {
@@ -123,6 +127,8 @@ public class Contact extends AbstractContact{
         this.phoneNumber.add(ph);
 
         saveChanges();
+
+        return ph;
     }
 
     @Override

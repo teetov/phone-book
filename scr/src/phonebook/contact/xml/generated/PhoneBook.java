@@ -127,7 +127,12 @@ public class PhoneBook implements src.phonebook.contact.PhoneBook {
 
     @Override
     public src.phonebook.contact.Contact createNewContact(String name) {
-        Contact cont = new Contact(IDGen.newId(this), name);
+        return createNewContact( name, "");
+    }
+
+    @Override
+    public src.phonebook.contact.Contact createNewContact(String name, String address) {
+        Contact cont = new Contact(IDGen.newId(this), name, address);
         contact.add(cont);
 
         saveChanges();

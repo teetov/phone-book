@@ -20,8 +20,6 @@ public class ContactSender extends HttpServlet {
 
         Contact contact = phoneBook.getContact(id);
 
-        System.out.println(contact);
-
         req.setAttribute("contact", contact);
 
         try{

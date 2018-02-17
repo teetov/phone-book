@@ -8,7 +8,7 @@
     <display-name>HelloWorld Application</display-name>
     <description>
     </description>
-
+    
     <servlet>
         <servlet-name>ContactList</servlet-name>
         <servlet-class>src.phonebook.servlet.ContactListSender</servlet-class>
@@ -18,15 +18,36 @@
         <servlet-name>Contact</servlet-name>
         <servlet-class>src.phonebook.servlet.ContactSender</servlet-class>
     </servlet>
+    
+    <servlet>
+        <servlet-name>ContactAlter</servlet-name>
+        <servlet-class>src.phonebook.servlet.ContactAlter</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>ContactCreator</servlet-name>
+        <servlet-class>src.phonebook.servlet.ContactCreator</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>ContactList</servlet-name>
         <url-pattern>/contacts</url-pattern>
+        <url-pattern>/</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
         <servlet-name>Contact</servlet-name>
         <url-pattern>/contact</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>ContactAlter</servlet-name>
+        <url-pattern>/alter</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>ContactCreator</servlet-name>
+        <url-pattern>/create</url-pattern>
     </servlet-mapping>
 
     <resource-ref>

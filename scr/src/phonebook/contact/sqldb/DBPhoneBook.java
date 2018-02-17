@@ -230,15 +230,17 @@ public class DBPhoneBook implements PhoneBook {
     }
 
     @Override
-    public Contact createNewContact(String name) {
+    public Contact createNewContact(String name, String address) {
         Contact result = null;
 
+        name = Validator.validate(name, DBContact.NAME_SIZE);
+        address = Validator.validate(address, DBContact.ADDRESS_SIZE);
        try(Connection connection = DBConnectionBuilder.getConnection()) {
            PreparedStatement stmt = connection.prepareStatement("INSERT INTO \"notes\" (\"name\", address, default_phone_id) VALUES (?, ?, ?)",
                    new String[] {"id", "dateOfCreation"});
 
            stmt.setString(1, name);
-           stmt.setString(2, "");
+           stmt.setString(2, address);
            stmt.setObject(3, null);
 
            stmt.execute();
@@ -260,6 +262,10 @@ public class DBPhoneBook implements PhoneBook {
        }
 
         return result;
+    }
+    @Override
+    public Contact createNewContact(String name) {
+        return createNewContact(name, "");
     }
 
 }

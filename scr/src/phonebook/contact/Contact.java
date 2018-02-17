@@ -10,8 +10,8 @@ public interface Contact {
 
     int lengthOfNumbersList();
 
-    void addNumber(String phoneNumber, String description);
-    void addNumber(String phoneNumber);
+    PhoneNumber addNumber(String phoneNumber, String description);
+    PhoneNumber addNumber(String phoneNumber);
 
     PhoneNumber getNumber(String number);
     PhoneNumber detNumberByDescription(String description);

@@ -84,13 +84,18 @@ public class PhoneBookSerializableImp implements PhoneBook, Serializable {
     }
 
     @Override
-    public Contact createNewContact(String name) {
-        Contact result = new ContactImpl(contactIdGen.newId(), name);
+    public Contact createNewContact(String name, String address) {
+        Contact result = new ContactImpl(contactIdGen.newId(), name, address);
         contactList.put(result.getId(), result);
 
         saveChanges();
 
         return result;
+    }
+
+    @Override
+    public Contact createNewContact(String name) {
+        return createNewContact(name, "");
     }
 
     private void saveChanges() {
