@@ -7,7 +7,8 @@
 Параметр PHONE_BOOK_VERSION прнимает два занчения: SQLDB и XML.
 Доступ к БД на сервере осуществляется через InitialContext, обращающися к файлу web/META-INF/context.xml.
 Проюполагается что БД имеет следующую структуру:
-schema: pbulic
+    
+    schema: pbulic
     tables: notes (id bigint, name varchar, address varchar, dateOfCreation timestamp, default_phone_id)
             phoneNumbers (id bigint, noteId bigint, number varchar, description varchar)
 
