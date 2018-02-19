@@ -1,0 +1,13 @@
+body {
+    background-color: azure;
+    align-content: center;
+}
+
+.logicGroup {
+    background-color: beige;
+    padding: 5px;
+    margin: 5px 10%;
+    border: 3px solid bisque;
+    min-width: 400px;
+    width: 50%;
+}
