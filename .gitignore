@@ -21,11 +21,10 @@
 # IDEA files
 *.iml
 .idea
-.idea/uiDesigner.xml
+*.idea
 
 *.project
 *.serial
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
-git rm -r -f --.idea\uiDesigner.xml'.idea' 
