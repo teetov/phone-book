@@ -44,6 +44,7 @@ public class DBPhoneBook implements PhoneBook {
             rs.close();
             prep.close();
 
+            //Поиск и добавление связаных с контактом номеров
             prep = connection.prepareStatement("SELECT * FROM \"phoneNumbers\" WHERE \"noteId\" = ?;");
             prep.setInt(1, contacId);
 
@@ -75,18 +76,12 @@ public class DBPhoneBook implements PhoneBook {
         return result;
     }
 
-    /**
-     * <p>Метод ищет в базе данных совпадения указанного атрибута с именем контакта или одним из его номеров.
-     * Поиск не затрагивает описание номера или адрес. Поиск по имени проводится без учёта регистра.</p>
-     * @param partOfAttribute Значение по которому проводится поиск. Должно содержит имя интересующего
-     *                        котакта, номер телефони или их часть.
-     * @return List<Contact> - список контактов в которых содержится переданное в параметре значение.
-     */
-    @Override
-    public List<Contact> findContacts(String partOfAttribute) {
+    //Метод ищет в базе данных совпадения указанного атрибута с именем контакта или одним из его номеров.
+    // Поиск не затрагивает описание номера или адрес. Поиск по имени проводится без учёта регистра.
+    public List<Contact> findContacts(String filter) {
         List<Contact> resultList = new ArrayList<>();
 
-        String likePattern = "%" + partOfAttribute + "%";
+        String likePattern = "%" + filter + "%";
 
         try(Connection connection = DBConnectionBuilder.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(
@@ -139,15 +134,12 @@ public class DBPhoneBook implements PhoneBook {
         return resultList;
     }
 
-    /**
-     *Создаёт List контактов из базы данных на основе полученного resultSet. Перед пердачи в метод с resultSet
-     * не рекомендуется проводить никаких манипуляций. Входные данные должны быть отсортированы на notes.id.
-     *
-     * @param resultSet ResultSet должен содержать таблицу со следующими колонками:
-     *      id(int), name (String), address (String), dateOfCreation (Date), default_phone_id (int),
-     *      phoneid (int), number (String), description (String)
-     * @return List<Contact>
-     */
+
+    //Создаёт List контактов из базы данных на основе полученного resultSet. Перед пердачи в метод с resultSet
+    // не рекомендуется проводить никаких манипуляций. Входные данные должны быть отсортированы на notes.id.
+    //@param resultSet ResultSet должен содержать таблицу со следующими колонками:
+    //      id(int), name (String), address (String), dateOfCreation (Date), default_phone_id (int),
+    //      phoneid (int), number (String), description (String)
     private List<Contact> createList(ResultSet resultSet) {
 
         List<Contact> resultList = new ArrayList<>();

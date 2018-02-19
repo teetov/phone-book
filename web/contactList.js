@@ -4,8 +4,8 @@ function deleteContacts() {
     switchFormDisplay();
     if(!displayForm) {
         var param = collectDeletedContacts();
+        //Если нет контактов под удаление - ничего не делать.
         if(param == "idSet=") {
-
         } else {
             param = "target=remove&" + param;
             sendPostAndReloadPage(param);
@@ -13,16 +13,17 @@ function deleteContacts() {
     }
 }
 
+//
 function switchFormDisplay() {
     var forms = document.getElementsByClassName("hiddenForm");
     if(!displayForm) {
-        document.getElementById("deleteBotton").innerText = "Удалить выбранные контакты";
+        document.getElementById("deleteButton").innerText = "Удалить выбранные контакты";
         for(var i = 0; i < forms.length; i++) {
             forms[i].style.display = "block";
         }
         displayForm = true;
     } else {
-        document.getElementById("deleteBotton").innerText = "Выбрать котакты для удаления";
+        document.getElementById("deleteButton").innerText = "Выбрать котакты для удаления";
         for(var i = 0; i < forms.length; i++) {
             forms[i].style.display = "none";
         }
@@ -30,6 +31,7 @@ function switchFormDisplay() {
     }
 }
 
+// Функция собирает id контактов, выбранных для удаления, и формирует из них запрос.
 function collectDeletedContacts() {
     var res = "idSet=";
 

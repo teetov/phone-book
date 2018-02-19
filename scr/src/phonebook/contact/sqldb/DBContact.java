@@ -13,6 +13,7 @@ public class DBContact extends AbstractContact{
     protected static int NAME_SIZE;
     protected static int ADDRESS_SIZE;
 
+    //Динамическое определение максимального размера полей для записи в Бд.
     static {
         try (Connection connection = DBConnectionBuilder.getConnection()) {
 

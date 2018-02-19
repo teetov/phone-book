@@ -1,20 +1,19 @@
-package src.phonebook.contact.serializable_list;
+package src.phonebook.contact.serializable;
 
 import src.phonebook.contact.Contact;
 import src.phonebook.contact.PhoneBook;
-import src.phonebook.contact.IdGenerator;
 import src.phonebook.contact.PhoneNumber;
 
 import java.io.*;
 import java.util.*;
 
-public class PhoneBookSerializableImp implements PhoneBook, Serializable {
+public class PhoneBookSerial implements PhoneBook, Serializable {
     private HashMap<Integer, Contact> contactList = new HashMap<>();
     private String fileName = "SerializableContactsStore.serial";
 
-    private IdGenerator contactIdGen = new IdGeneratorImpl();
+    private IdGenerator contactIdGen = new IdGenerator();
 
-    public PhoneBookSerializableImp() {
+    public PhoneBookSerial() {
         File file = new File("SerializableContactsStore.serial");
         if(!file.exists()) {
             try {
@@ -25,7 +24,7 @@ public class PhoneBookSerializableImp implements PhoneBook, Serializable {
             System.out.println("Список контактов не обнаружен." +
                     "\r\nСоздан новый список контактов.\r\n");
             contactList = new HashMap<>();
-            contactIdGen = new IdGeneratorImpl();
+            contactIdGen = new IdGenerator();
             return;
         }
         try(ObjectInputStream ois = new ObjectInputStream(
@@ -37,7 +36,7 @@ public class PhoneBookSerializableImp implements PhoneBook, Serializable {
             System.out.println("Список контактов не обнаружен." +
                     "\r\nСоздан новый список контактов.\r\n");
             contactList = new HashMap<>();
-            contactIdGen = new IdGeneratorImpl();
+            contactIdGen = new IdGenerator();
             e.printStackTrace();
         }
     }
@@ -48,15 +47,15 @@ public class PhoneBookSerializableImp implements PhoneBook, Serializable {
     }
 
     @Override
-    public List<Contact> findContacts(String partOfAttribute) {
-        String matcher = ".*" +partOfAttribute + ".*";
+    public List<Contact> findContacts(String filter) {
+        String matcher = ".*" + filter + ".*";
         List<Contact> resultList = new ArrayList<>();
         for(Contact cont : contactList.values()) {
-            if(cont.getName().matches(partOfAttribute))
+            if(cont.getName().matches(filter))
                 resultList.add(cont);
             else {
                 newContact: for(PhoneNumber numb : cont.getNumbers()) {
-                    if (numb.getNumber().matches(partOfAttribute)) {
+                    if (numb.getNumber().matches(filter)) {
                         resultList.add(cont);
                         break newContact;
                     }
@@ -85,7 +84,7 @@ public class PhoneBookSerializableImp implements PhoneBook, Serializable {
 
     @Override
     public Contact createNewContact(String name, String address) {
-        Contact result = new ContactImpl(contactIdGen.newId(), name, address);
+        Contact result = new ContactSerial(contactIdGen.newId(), name, address);
         contactList.put(result.getId(), result);
 
         saveChanges();

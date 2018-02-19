@@ -1,4 +1,22 @@
-﻿
+﻿//    Parameters(параметры для POST запроса:
+//    target=[alter, remove, add] alter - изменение текущего контакта,
+//        add - добавление нового номера, remove - удаление номера
+//    contactId;
+//    если target - alter:
+//        name
+//        address
+//        idSet: перечисление id номеров через #
+//        description[idPhone] - например description14
+//        number[idPhone]
+//    если target - add:
+//        number
+//        description
+//        в response следует записать id добавленного контакта
+//    если target - remove:
+//        idSet: перечисление id номеров через #
+
+// Функция формирует в возвращает строку HTML агрументами для запроса на изменения параметров контакта
+// (имя, адрес).
 function collectContactParameters() {
     var name = document.getElementById("newName").value;
     var address = document.getElementById("newAddress").value;
@@ -7,6 +25,7 @@ function collectContactParameters() {
     return result;
 }
 
+// Функция находит номер, отмеченный как номер поумолчанию.
 function checkRadio() {
     var result = "";
     var radio = document.getElementsByName("default");
@@ -18,6 +37,7 @@ function checkRadio() {
     return result;
 }
 
+// Функция формирует в возвращает строку HTML агрументами для запроса на изменения номеров контакта.
 function collectPhoneParameters() {
     var phoneWrappers = document.getElementsByClassName("fieldWrapper");
     var result = "";
@@ -62,6 +82,7 @@ function  sendPostWithoutResponse(param) {
     xhttp.send(param);
 }
 
+// Функция отсылает сервлету данные об текущем состоянии полей конаткта.
 function sendParameters() {
     var contactParam = collectContactParameters();
     var phoneParam = collectPhoneParameters();
@@ -74,6 +95,8 @@ function sendParameters() {
     sendPostWithoutResponse(param);
 }
 
+// Фнкция отправляет POST запрос на добавление нового номера к контакту
+// и даёт команду на отобажение новых полей после получения id номера.
 function addNewNumber() {
     var param = collectNewNumber();
 
@@ -95,6 +118,7 @@ function addNewNumber() {
     xhttp.send(param);
 }
 
+// Функция формирует параметры, соответствующие полям нового номера.
 function collectNewNumber() {
     var result = "";
 
@@ -103,6 +127,7 @@ function collectNewNumber() {
     return result;
 }
 
+// Функция добавляет поля, связанные с новым номером, в форму для редактирования
 function constructNewForm(id) {
     var form = document.getElementById("phoneForm");
 
@@ -111,6 +136,9 @@ function constructNewForm(id) {
     div.setAttribute("class", "fieldWrapper");
 
     form.appendChild(div);
+
+    //кнопка дожна идти последней
+    form.appendChild(document.getElementById("contactChangeButton"));
 
     var breakLine = document.createElement("br");
 
@@ -121,11 +149,12 @@ function constructNewForm(id) {
     input.id="description" + id;
     input.setAttribute("class", "descriptionInput");
     input.value = document.getElementById("newDescr").value;
+    input.size = 30;
     document.getElementById("newDescr").value = "";
 
     var label = document.createElement("label");
     label.setAttribute("for", input.id);
-    label.innerText = "Описание";
+    label.innerText = "Описание ";
 
     div.appendChild(label);
     div.appendChild(input);
@@ -139,11 +168,14 @@ function constructNewForm(id) {
     input.id="number" + id;
     input.setAttribute("class", "numberInput");
     input.value = document.getElementById("newNumber").value;
+    input.pattern = "[0-9]+";
+    input.size = 30;
+    input.setAttributeNode(document.createAttribute("required"));
     document.getElementById("newNumber").value = "";
 
     label = document.createElement("label");
     label.setAttribute("for", input.id);
-    label.innerText = "Номер телефона";
+    label.innerText = "Номер телефона ";
 
     div.appendChild(label);
     div.appendChild(input);
@@ -164,7 +196,7 @@ function constructNewForm(id) {
 
     label = document.createElement("label");
     label.for = input.id;
-    label.innerText = "Выберите номер поумолчанию";
+    label.innerText = "Выбрать номером поумолчанию ";
 
     div.appendChild(label);
     div.appendChild(input);
@@ -180,7 +212,7 @@ function constructNewForm(id) {
 
     label = document.createElement("label");
     label.for = input.id;
-    label.innerText = "Отметить для удаления";
+    label.innerText = "Отметить для удаления ";
 
     div.appendChild(label);
     div.appendChild(input);
@@ -198,12 +230,13 @@ function deleteNumbers() {
     sendPostWithoutResponse(param);
 }
 
+// Функция формирует параметр, содержащий id номеров для удаления.
 function collectDeleteNumbers() {
     var res = "idSet=";
 
     var deleteList = document.getElementsByName("checkForDelete");
 
-    for(var i = 0; i < deleteList.length; i++) {
+    for(var i =  deleteList.length - 1; i >= 0; i--) {
         if(deleteList[i].checked) {
             var id = deleteList[i].value;
             res += "#" + id;

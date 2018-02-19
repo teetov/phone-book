@@ -76,6 +76,7 @@ public class PhoneNumber extends AbstractPhoneNumber {
         saveChanges();
     }
 
+    //Сохранение изменеий в файл.
     private void saveChanges() {
         PhoneBook phoneBook = PhoneBookFactory.getPhoneBook();
 

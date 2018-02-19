@@ -1,11 +1,12 @@
 package src.phonebook.contact.sqldb;
 
 class Validator {
-    static String validate(String input, int constraint) {
+    //Проверка строки пред вставкой в бд
+    static String validate(String input, int maxSize) {
         input = input == null ? "" : input;
 
-        if(input.length() <= constraint)
+        if(input.length() <= maxSize)
             return input;
-        return input.substring(0, constraint);
+        return input.substring(0, maxSize);
     }
 }

@@ -9,6 +9,7 @@ public class DBPhoneNumber extends AbstractPhoneNumber{
     protected static int DESCRIPTION_SIZE;
     protected static int PHONE_SIZE;
 
+    //Динамическое определение максимального размера полей для записи в Бд.
     static {
         try (Connection connection = DBConnectionBuilder.getConnection()) {
 

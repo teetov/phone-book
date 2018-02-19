@@ -85,15 +85,15 @@ public class PhoneBook implements src.phonebook.contact.PhoneBook {
     }
 
     @Override
-    public List<src.phonebook.contact.Contact> findContacts(String partOfAttribute) {
-        String matcher = ".*" +partOfAttribute + ".*";
+    public List<src.phonebook.contact.Contact> findContacts(String filter) {
+        String matcher = ".*" + filter + ".*";
         List<src.phonebook.contact.Contact> resultList = new ArrayList<>();
         for(src.phonebook.contact.Contact cont : contact) {
-            if(cont.getName().matches(partOfAttribute))
+            if(cont.getName().matches(filter))
                 resultList.add(cont);
             else {
                 newContact: for(PhoneNumber numb : cont.getNumbers()) {
-                    if (numb.getNumber().matches(partOfAttribute)) {
+                    if (numb.getNumber().matches(filter)) {
                         resultList.add(cont);
                         break newContact;
                     }

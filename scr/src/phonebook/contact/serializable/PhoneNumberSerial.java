@@ -1,10 +1,10 @@
-package src.phonebook.contact.serializable_list;
+package src.phonebook.contact.serializable;
 
 import src.phonebook.contact.AbstractPhoneNumber;
 
 import java.io.Serializable;
 
-public class PhoneNumberImpl extends AbstractPhoneNumber implements  Serializable {
+public class PhoneNumberSerial extends AbstractPhoneNumber implements  Serializable {
 
     private final int id;
 
@@ -12,13 +12,13 @@ public class PhoneNumberImpl extends AbstractPhoneNumber implements  Serializabl
 
     private String description;
 
-    public PhoneNumberImpl(int id, String number, String description) {
+    public PhoneNumberSerial(int id, String number, String description) {
         this.id = id;
         this.number = number;
         this.description = description;
     }
 
-    public PhoneNumberImpl(int id, String number) {
+    public PhoneNumberSerial(int id, String number) {
         this(id, number, "");
     }
 

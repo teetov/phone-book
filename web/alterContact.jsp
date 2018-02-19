@@ -8,7 +8,7 @@
 <html>
 
 <head>
-    <title>${contact.name}</title>
+    <title>Редактирование ${contact.name}</title>
     <style>
         <%@ include file="common.css"%>
     </style>
@@ -20,63 +20,79 @@
 </head>
 
 <body>
-
-<%@ include file="menu.html"%>
-
+<div class="logicGroup">
+    <%@ include file="menu.html"%>
+</div>
 <div>
-    <form onsubmit="changeContactParameters()" action="" id="contactForm" >
-        <label for="newName">Имя контакта</label>
-        <br/>
-        <input type="text" placeholder="Введите новое имя" value="${contact.name}" id="newName"/>
-        <br/>
-        <label for="newAddress">Адрес контакта</label>
-        <br/>
-        <input type="text" placeholder="Введите новый адрес" value="${contact.address}" id="newAddress"/>
-        <br/>
-    </form>
+    <div class="logicGroup">
+        <p>
+            <a href="/contact?id=${contact.id}">Перейти к просмотру котакта</a>
+        </p>
 
-    <form id="phoneForm">
-        <c:forEach var="phone" items="${contact.numbers}">
-            <div class="fieldWrapper" id="${phone.id}">
-                    <label for="description${phone.id}">Описание</label>
-                    <input type="text" value="${phone.description}" placeholder="Введите новое описание" id="description${phone.id}"
-                    class="descriptionInput"/>
-                    <br>
+        <form onsubmit="changeContactParameters()" id="contactForm" >
+            <label for="newName">Имя контакта</label>
+            <br/>
+            <input type="text" placeholder="Введите новое имя" value="${contact.name}" id="newName" pattern=".*" required/>
+            <br/>
+            <label for="newAddress">Адрес контакта</label>
+            <br/>
+            <input type="text" placeholder="Введите новый адрес" value="${contact.address}" id="newAddress"/>
+            <br/>
+        </form>
 
-                    <label for="number${phone.id}">Номер телефона</label>
-                    <input type="text" value="${phone.number}" placeholder="Введите новоый номер" id="number${phone.id}"
-                    class="numberInput"/>
-                    <br>
+        <p>Номера телефонов:</p>
 
-                    <label for=radio${phone.id}">Выберете номер поумолчанию</label>
-                    <input type="radio" name="default" value="${phone.id}" id="radio${phone.id}"
-                        <c:if test="${contact.defaultNumber == phone}">
-                            checked
-                        </c:if>
-                    />
-                    <br/>
+        <form id="phoneForm" onsubmit="sendParameters(); return false;">
+            <c:forEach var="phone" items="${contact.numbers}">
+                <div class="fieldWrapper" id="${phone.id}">
+                        <label for="description${phone.id}">Описание</label>
+                        <input type="text" value="${phone.description}" placeholder="Введите новое описание"
+                               id="description${phone.id}" class="descriptionInput" size="30"/>
+                        <br>
 
-                    <label for=delete${phone.id}">Отметить для удаления</label>
-                    <input type="checkbox" name="checkForDelete" value="${phone.id}" id="delete${phone.id}"/>
-                    <br>
+                        <label for="number${phone.id}">Номер телефона</label>
+                        <input type="text" value="${phone.number}" placeholder="Введите новоый номер" id="number${phone.id}"
+                        class="numberInput" parttern="[0-9]+"  size="30" required/>
+                        <br>
 
-                    <br>
-            </div>
-        </c:forEach>
-    </form>
+                        <label for=radio${phone.id}">Выбрать номером поумолчанию</label>
+                        <input type="radio" name="default" value="${phone.id}" id="radio${phone.id}"
+                            <c:if test="${contact.defaultNumber == phone}">
+                                checked
+                            </c:if>
+                        />
+                        <br/>
 
-    <button onclick="sendParameters()">Сохранить</button >
-    <button onclick="deleteNumbers()">Удалить отмеченные номера</button >
+                        <label for=delete${phone.id}">Отметить для удаления</label>
+                        <input type="checkbox" name="checkForDelete" value="${phone.id}" id="delete${phone.id}"/>
+                        <br>
 
-    <form>
-        <p>Добавить новый котакт</p>
-        <label for="newDescr">Описание </label>
-        <input type="text" id="newDescr" placeholder="Введите новое описание"/>
-        <label for="newNumber">Номер телефона</label>
-        <input type="text" id="newNumber" placeholder="Введите новый номер"/>
-    </form>
-    <button onclick="addNewNumber()">Добваить</button>
+                        <br>
+                </div>
+            </c:forEach>
 
+            <button id="contactChangeButton">Сохранить</button >
+
+        </form>
+
+        <button onclick="deleteNumbers()">Удалить отмеченные номера</button >
+    </div>
+
+    <div class="logicGroup">
+        <form action="" onsubmit="addNewNumber(); return false;">
+            <p>Добавить новый котакт </p>
+
+            <label for="newDescr">Описание </label>
+            <input type="text" id="newDescr" placeholder="Введите новое описание" size="30"/>
+            <br/>
+
+            <label for="newNumber">Номер телефона </label>
+            <input type="text" id="newNumber" placeholder="Введите новый номер" required size="30"/>
+            <br/>
+
+            <button>Добваить</button>
+        </form>
+    </div>
 </div>
 </body>
 </html>

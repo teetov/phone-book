@@ -7,7 +7,7 @@ import java.util.*;
 public interface PhoneBook {
     Contact getContact(int id);
 
-    List<Contact> findContacts(String partOfAttribute);
+    List<Contact> findContacts(String filter);
 
     List<Contact> getContactList();
 

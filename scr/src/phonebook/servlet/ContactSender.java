@@ -14,21 +14,22 @@ public class ContactSender extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        PhoneBook phoneBook = PhoneBookFactory.getPhoneBook();
+        Contact contact;
 
-        int id = Integer.valueOf(req.getParameter("id"));
-
-        Contact contact = phoneBook.getContact(id);
+        try {
+            contact = ServletUtil.extractContactFromRequest(req, "id");
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            return;
+        }
 
         req.setAttribute("contact", contact);
 
         try{
             req.getRequestDispatcher("/contact.jsp").forward(req, resp);
         } catch (ServletException e) {
-            System.out.println("ServletException");
             e.printStackTrace();
         } catch (IOException e) {
-            System.out.println("IOException");
             e.printStackTrace();
         }
     }

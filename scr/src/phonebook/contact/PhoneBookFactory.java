@@ -8,7 +8,7 @@ public class PhoneBookFactory {
 
  /*  public static synchronized PhoneBook getPhoneBook() {
         if(phoneBook == null)
-            phoneBook = new PhoneBookSerializableImp();
+            phoneBook = new PhoneBookSerial();
         return phoneBook;
     }*/
 

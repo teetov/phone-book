@@ -11,12 +11,15 @@
     </style>
 </head>
 <body>
-<%@include file="menu.html"%>
-<div>
+<div class="logicGroup">
+    <%@include file="menu.html"%>
+</div>
+<div class="logicGroup">
     <form action="/create" method="POST" accept-charset="UTF-8">
         <label for="newName">Имя нового контакта</label>
         <br/>
-        <input type="text" id="newName" placeholder="Введите имя" name="name" size="30"/>
+        <input type="text" id="newName" placeholder="Введите имя"
+               name="name" size="30"/>
         <br/>
 
         <label for="newAddress">Адрес нового контакта</label>
@@ -31,10 +34,11 @@
 
         <label for="newNumber">Номер телефона</label>
         <br/>
-        <input type="text" id="newNumber" placeholder="Введите номер телефона" name="number" size="30"/>
+        <input type="text" id="newNumber" placeholder="Введите номер телефона"
+               parttern="[0-9]+" required name="number" size="30"/>
         <br/>
 
-        <input type="submit">
+        <input type="submit" value="Сохранить">
     </form>
 </div>
 </body>

@@ -22,33 +22,27 @@ public class DBConnectionBuilder {
             dataSource = (DataSource) initContext.lookup("java:comp/env/jdbc/postgres");
 
         } catch(NamingException exc) {
-            System.out.println("DataSource is not found. New Connection will be created");
-            System.out.println();
-            exc.printStackTrace();
+            System.out.println("DataSource is not found.");
         }
 
     }
 
-    public static Connection getConnection() {
+    //
+    public static Connection getConnection() throws SQLException {
         if(dataSource != null)
             try {
                 return dataSource.getConnection();
             } catch (SQLException exc) {
-                System.out.println("DataSource is not found. New Connection will be created");
-                System.out.println();
-                exc.printStackTrace();
+                System.out.println("DataSource is not found. New Connection will be created manually");
+                throw new SQLException(exc);
             }
         return createNewConnection();
     }
 
-    private static Connection createNewConnection() {
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/phonebook",
-                    "phonebook_user", "phonebook");
-            return connection;
-        } catch (SQLException exc) {
-            exc.printStackTrace();
-        }
-        return null;
+    //Создаёт  соединание с БД если нет доступа к контексту
+    private static Connection createNewConnection() throws SQLException {
+        Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/phonebook",
+                "phonebook_user", "phonebook");
+        return connection;
     }
 }

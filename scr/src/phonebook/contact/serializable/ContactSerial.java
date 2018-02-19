@@ -1,19 +1,18 @@
-package src.phonebook.contact.serializable_list;
+package src.phonebook.contact.serializable;
 
 import src.phonebook.contact.AbstractContact;
-import src.phonebook.contact.IdGenerator;
 import src.phonebook.contact.PhoneNumber;
 
 import java.io.Serializable;
 import java.util.*;
 
-public class ContactImpl extends AbstractContact implements Serializable{
+public class ContactSerial extends AbstractContact implements Serializable{
 
     private final int id;
 
     private String name;
 
-    private final IdGenerator numberIdGen = new IdGeneratorImpl();
+    private final IdGenerator numberIdGen = new IdGenerator();
 
     private String address;
 
@@ -22,14 +21,14 @@ public class ContactImpl extends AbstractContact implements Serializable{
 
     private PhoneNumber defPhoneNumber;
 
-    ContactImpl(int id, String name, String address) {
+    ContactSerial(int id, String name, String address) {
         this.id = id;
         this.name = name;
         this.address = address;
         dateOfCreation = Calendar.getInstance();
     }
 
-    ContactImpl(int id, String name) {
+    ContactSerial(int id, String name) {
         this(id, name, "");
     }
 
@@ -46,14 +45,13 @@ public class ContactImpl extends AbstractContact implements Serializable{
 
     @Override
     public PhoneNumber addNumber(String number, String description) {
-        PhoneNumber num = new PhoneNumberImpl(numberIdGen.newId(), number, description);
+        PhoneNumber num = new PhoneNumberSerial(numberIdGen.newId(), number, description);
         if(numbers.size() == 0)
             defPhoneNumber = num;
         numbers.add(num);
         return num;
     }
 
-    //реализовать
     @Override
     public PhoneNumber getNumber(String number) {
         for(PhoneNumber numb : numbers) {
@@ -63,7 +61,6 @@ public class ContactImpl extends AbstractContact implements Serializable{
         return null;
     }
 
-    //реализовать
     @Override
     public PhoneNumber detNumberByDescription(String description) {
         for(PhoneNumber numb : numbers) {

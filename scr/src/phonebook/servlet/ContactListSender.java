@@ -62,7 +62,7 @@ public class ContactListSender extends HttpServlet{
         PhoneBook phoneBook = PhoneBookFactory.getPhoneBook();
 
         if("remove".equals(target)) {
-            Set<Integer> setId = parseIdSet(req.getParameter("idSet"));
+            Set<Integer> setId = ServletUtil.parseIdSet(req.getParameter("idSet"));
 
             for(int id : setId) {
                 phoneBook.remove(id);
@@ -70,8 +70,9 @@ public class ContactListSender extends HttpServlet{
         }
     }
 
-    private List<Contact> prepareContacts(List<Contact> contactList, int column) {
-        int start = (column - 1) * CONTACTS_PER_PAGE;
+    //Подготавливает список нужных контактов для конкретного номера страницы страницы.
+    private List<Contact> prepareContacts(List<Contact> contactList, int index) {
+        int start = (index - 1) * CONTACTS_PER_PAGE;
         int totalSize = contactList.size();
 
         if(start > totalSize) {
@@ -86,6 +87,7 @@ public class ContactListSender extends HttpServlet{
         return contactList.subList(start, end);
     }
 
+    //Возвращаяет номер страниы в из запроса. Если он не указан возвращает 1.
     private int columnIndex(HttpServletRequest req) {
         String index = req.getParameter("index");
         if(index == null || index.equals(""))
@@ -100,16 +102,4 @@ public class ContactListSender extends HttpServlet{
         return i;
     }
 
-    private Set<Integer> parseIdSet(String idSet) {
-        Set<Integer> setId = new HashSet<>();
-        if(idSet == null || idSet.length() == 0)
-            return setId;
-
-        String[] phoneNumbersIdStr = new String[0];
-        phoneNumbersIdStr = idSet.substring(1).split("#");
-        for(String id : phoneNumbersIdStr) {
-            setId.add(Integer.valueOf(id));
-        }
-        return setId;
-    }
 }
