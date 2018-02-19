@@ -9,9 +9,8 @@
 Проюполагается что БД имеет следующую структуру:
     
     schema: pbulic
-    tables: notes (id bigint, name varchar, address varchar, dateOfCreation timestamp, default_phone_id)
+    tables: notes (id bigint, name varchar, address varchar, date_of_creation timestamp, default_phone_id)
             phoneNumbers (id bigint, noteId bigint, number varchar, description varchar)
-
 
 
 Телефонная книга может запускаться как на сервере приложений(Tomcat) так и открываться в командной строке. 

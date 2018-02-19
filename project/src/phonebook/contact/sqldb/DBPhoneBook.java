@@ -30,7 +30,7 @@ public class DBPhoneBook implements PhoneBook {
                 contacId = rs.getInt("id");
                 contactName = rs.getString("name");
                 address = rs.getString("address");
-                Timestamp timestamp = rs.getTimestamp("dateOfCreation");
+                Timestamp timestamp = rs.getTimestamp("date_of_creation");
                 uploadDate = Calendar.getInstance();
                 uploadDate.setTime(new Date(timestamp.getTime()));
                 defaultPhoneId = rs.getInt("default_phone_id");
@@ -85,8 +85,8 @@ public class DBPhoneBook implements PhoneBook {
 
         try(Connection connection = DBConnectionBuilder.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(
-                    "SELECT n.id id, n.\"name\" \"name\", n.address address, n.\"dateOfCreation\"\n " +
-                            "\"dateOfCreation\", n.\"default_phone_id\" \"default_phone_id\",\n " +
+                    "SELECT n.id id, n.\"name\" \"name\", n.address address, n.\"date_of_creation\"\n " +
+                            "\"date_of_creation\", n.\"default_phone_id\" \"default_phone_id\",\n " +
                             "\"ph\".id \"phoneid\", ph.\"number\" \"number\", ph.description description\n " +
                             "FROM \"notes\" \"n\"\n " +
                             "LEFT JOIN \"phoneNumbers\" ph ON n.id = ph.\"noteId\"\n" +
@@ -117,8 +117,8 @@ public class DBPhoneBook implements PhoneBook {
             Statement stmt = connection.createStatement();
 
             ResultSet rsContact = stmt.executeQuery(
-                    "SELECT n.id id, n.\"name\" \"name\", n.address address, n.\"dateOfCreation\" " +
-                            "dateOfCreation, n.default_phone_id default_phone_id, " +
+                    "SELECT n.id id, n.\"name\" \"name\", n.address address, n.\"date_of_creation\" " +
+                            "\"date_of_creation\", n.default_phone_id default_phone_id, " +
                             "ph.id phoneid, ph.number number, ph.description description " +
                             "FROM \"notes\" \"n\" " +
                             "LEFT JOIN \"phoneNumbers\" ph ON n.id = ph.\"noteId\" " +
@@ -138,7 +138,7 @@ public class DBPhoneBook implements PhoneBook {
     //Создаёт List контактов из базы данных на основе полученного resultSet. Перед пердачи в метод с resultSet
     // не рекомендуется проводить никаких манипуляций. Входные данные должны быть отсортированы на notes.id.
     //@param resultSet ResultSet должен содержать таблицу со следующими колонками:
-    //      id(int), name (String), address (String), dateOfCreation (Date), default_phone_id (int),
+    //      id(int), name (String), address (String), date_of_creation (Date), default_phone_id (int),
     //      phoneid (int), number (String), description (String)
     private List<Contact> createList(ResultSet resultSet) {
 
@@ -171,7 +171,7 @@ public class DBPhoneBook implements PhoneBook {
                     contactName = resultSet.getString("name");
                     address = resultSet.getString("address");
                     uploadDate = Calendar.getInstance();
-                    uploadDate.setTime(resultSet.getDate("dateOfCreation"));
+                    uploadDate.setTime(resultSet.getDate("date_of_creation"));
                     defaultPhoneId = resultSet.getInt("default_phone_id");
                 }
 
@@ -229,7 +229,7 @@ public class DBPhoneBook implements PhoneBook {
         address = Validator.validate(address, DBContact.ADDRESS_SIZE);
        try(Connection connection = DBConnectionBuilder.getConnection()) {
            PreparedStatement stmt = connection.prepareStatement("INSERT INTO \"notes\" (\"name\", address, default_phone_id) VALUES (?, ?, ?)",
-                   new String[] {"id", "dateOfCreation"});
+                   new String[] {"id", "date_of_creation"});
 
            stmt.setString(1, name);
            stmt.setString(2, address);
@@ -242,7 +242,7 @@ public class DBPhoneBook implements PhoneBook {
            Calendar uploadDate = null;
            if(resultSet.next()) {
                id = resultSet.getInt("id");
-               Timestamp timestamp = resultSet.getTimestamp("dateOfCreation");
+               Timestamp timestamp = resultSet.getTimestamp("date_of_creation");
                uploadDate = Calendar.getInstance();
                uploadDate.setTime(new Date(timestamp.getTime()));
            }
