@@ -21,6 +21,7 @@
 # IDEA files
 *.iml
 .idea
+*.idea
 
 *.project
 *.serial
