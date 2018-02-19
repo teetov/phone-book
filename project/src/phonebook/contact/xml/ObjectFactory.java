@@ -6,7 +6,7 @@
 //
 
 
-package src.phonebook.contact.xml.generated;
+package src.phonebook.contact.xml;
 
 import javax.xml.bind.annotation.XmlRegistry;
 

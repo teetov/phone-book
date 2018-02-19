@@ -19,7 +19,7 @@
         <label for="newName">Имя нового контакта</label>
         <br/>
         <input type="text" id="newName" placeholder="Введите имя"
-               name="name" size="30"/>
+               name="name" required size="30"/>
         <br/>
 
         <label for="newAddress">Адрес нового контакта</label>

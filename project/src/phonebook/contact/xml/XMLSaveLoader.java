@@ -19,7 +19,7 @@ public class XMLSaveLoader {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return new src.phonebook.contact.xml.generated.PhoneBook();
+            return new src.phonebook.contact.xml.PhoneBook();
         }
 
         try(InputStream is = new FileInputStream(file)) {
@@ -34,7 +34,7 @@ public class XMLSaveLoader {
 
         } catch (Exception e) {
             e.printStackTrace();
-            return new src.phonebook.contact.xml.generated.PhoneBook();
+            return new src.phonebook.contact.xml.PhoneBook();
         }
     }
 

@@ -87,7 +87,7 @@
             <br/>
 
             <label for="newNumber">Номер телефона </label>
-            <input type="text" id="newNumber" placeholder="Введите новый номер" required size="30"/>
+            <input type="text" id="newNumber" placeholder="Введите новый номер" parttern="[0-9]+" required size="30"/>
             <br/>
 
             <button>Добваить</button>

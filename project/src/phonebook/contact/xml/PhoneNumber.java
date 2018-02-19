@@ -6,12 +6,11 @@
 //
 
 
-package src.phonebook.contact.xml.generated;
+package src.phonebook.contact.xml;
 
 import src.phonebook.contact.AbstractPhoneNumber;
 import src.phonebook.contact.PhoneBookFactory;
 import src.phonebook.contact.PhoneBook;
-import src.phonebook.contact.xml.XMLSaveLoader;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -80,7 +79,7 @@ public class PhoneNumber extends AbstractPhoneNumber {
     private void saveChanges() {
         PhoneBook phoneBook = PhoneBookFactory.getPhoneBook();
 
-        if(phoneBook instanceof src.phonebook.contact.xml.generated.PhoneBook)
+        if(phoneBook instanceof src.phonebook.contact.xml.PhoneBook)
             XMLSaveLoader.savePhoneBook(PhoneBookFactory.getPhoneBook());
     }
 }

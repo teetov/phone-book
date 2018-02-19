@@ -123,7 +123,7 @@ public class ContactAlter extends HttpServlet {
 
         try {
             int defId = ServletUtil.parseParameterToInt(req, "default");
-            if (contact.getDefaultNumber().getId() != defId) {
+            if (contact.getDefaultNumber() != null && contact.getDefaultNumber().getId() != defId) {
                 contact.setDefoultNumber(defId);
             }
         } catch (NumberFormatException e) {

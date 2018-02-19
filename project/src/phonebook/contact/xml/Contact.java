@@ -6,13 +6,12 @@
 //
 
 
-package src.phonebook.contact.xml.generated;
+package src.phonebook.contact.xml;
 
 import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
 import src.phonebook.contact.AbstractContact;
 import src.phonebook.contact.PhoneBook;
 import src.phonebook.contact.PhoneBookFactory;
-import src.phonebook.contact.xml.XMLSaveLoader;
 
 import java.util.*;
 import javax.xml.bind.annotation.*;
@@ -171,11 +170,15 @@ public class Contact extends AbstractContact{
 
     @Override
     public String getName() {
+        if(contactsName == null)
+            return "";
         return contactsName;
     }
 
     @Override
     public String getAddress() {
+        if(address == null)
+            return "";
         return address;
     }
 
@@ -195,7 +198,8 @@ public class Contact extends AbstractContact{
 
     @Override
     public void setDefaultNumber(src.phonebook.contact.PhoneNumber phoneNumber) {
-        setDefaultNumberId(phoneNumber.getId());
+
+        defaultNumberId = phoneNumber.getId();
 
         saveChanges();
     }
@@ -259,7 +263,7 @@ public class Contact extends AbstractContact{
     private void saveChanges() {
         PhoneBook phoneBook = PhoneBookFactory.getPhoneBook();
 
-        if(phoneBook instanceof src.phonebook.contact.xml.generated.PhoneBook)
+        if(phoneBook instanceof src.phonebook.contact.xml.PhoneBook)
             XMLSaveLoader.savePhoneBook(PhoneBookFactory.getPhoneBook());
     }
 }

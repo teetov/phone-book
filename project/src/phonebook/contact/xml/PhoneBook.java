@@ -6,10 +6,9 @@
 //
 
 
-package src.phonebook.contact.xml.generated;
+package src.phonebook.contact.xml;
 
 import src.phonebook.contact.PhoneNumber;
-import src.phonebook.contact.xml.XMLSaveLoader;
 
 import java.util.*;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -27,6 +26,8 @@ public class PhoneBook implements src.phonebook.contact.PhoneBook {
 
     protected List<Contact> contact;
 
+
+    //для получения объекта PhoneBook следует использовать выражение new XMLSaveLoader().loadPhoneBook();
     public PhoneBook() {
         contact = new ArrayList<>();
     }
@@ -36,7 +37,7 @@ public class PhoneBook implements src.phonebook.contact.PhoneBook {
 
         static SortedSet<Integer> idList = new TreeSet<>();
 
-        public static int newId(src.phonebook.contact.xml.generated.PhoneBook cl) {
+        public static int newId(PhoneBook cl) {
             if(!hasBeanInitialized) {
                 initialize(cl);
             }
@@ -52,13 +53,13 @@ public class PhoneBook implements src.phonebook.contact.PhoneBook {
             return result;
         }
 
-        public static void removeId(src.phonebook.contact.xml.generated.PhoneBook cl, int id) {
+        public static void removeId(PhoneBook cl, int id) {
             if(!hasBeanInitialized) {
                 initialize(cl);
             }
             idList.remove(id);
         }
-        private static void initialize(src.phonebook.contact.xml.generated.PhoneBook cl) {
+        private static void initialize(PhoneBook cl) {
             if(hasBeanInitialized)
                 return;
             for(Contact cont : cl.contact) {
