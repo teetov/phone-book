@@ -85,7 +85,7 @@ public class DBPhoneBook implements PhoneBook {
 
         try(Connection connection = DBConnectionBuilder.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(
-                    "SELECT n.id id, n.\"name\" \"name\", n.address address, n.date_of_creation\n " +
+                    "SELECT n.id id, n.\"name\" \"name\", n.address address, n.\"date_of_creation\"\n " +
                             "\"date_of_creation\", n.\"default_phone_id\" \"default_phone_id\",\n " +
                             "\"ph\".id \"phoneid\", ph.\"number\" \"number\", ph.description description\n " +
                             "FROM \"notes\" \"n\"\n " +
@@ -117,8 +117,8 @@ public class DBPhoneBook implements PhoneBook {
             Statement stmt = connection.createStatement();
 
             ResultSet rsContact = stmt.executeQuery(
-                    "SELECT n.id id, n.\"name\" \"name\", n.address address, n.date_of_creation " +
-                            "date_of_creation, n.default_phone_id default_phone_id, " +
+                    "SELECT n.id id, n.\"name\" \"name\", n.address address, n.\"date_of_creation\" " +
+                            "\"date_of_creation\", n.default_phone_id default_phone_id, " +
                             "ph.id phoneid, ph.number number, ph.description description " +
                             "FROM \"notes\" \"n\" " +
                             "LEFT JOIN \"phoneNumbers\" ph ON n.id = ph.\"noteId\" " +

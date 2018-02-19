@@ -13,6 +13,5 @@
             phoneNumbers (id bigint, noteId bigint, number varchar, description varchar)
 
 
-
 Телефонная книга может запускаться как на сервере приложений(Tomcat) так и открываться в командной строке. 
 Точкой входа в этом случае является src.phonebook.main.Main.
